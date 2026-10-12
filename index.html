@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happ.cx — подключение через Happ</title>
+<meta name="description" content="Установите приложение Happ и получите ключ подключения через партнёрский сервис. Инструкции для iPhone, Android, Windows, macOS и Linux.">
+<link rel="canonical" href="https://happ.cx/">
+<style>
+:root {
+  --bg: #0b0f19;
+  --bg2: #131826;
+  --bg3: #1a2035;
+  --text: #e4e8f1;
+  --text2: #9aa3b8;
+  --accent: #6c5ce7;
+  --accent-hover: #7e70f0;
+  --accent-text: #fff;
+  --border: #252d42;
+  --card-bg: #161c2e;
+  --radius: 12px;
+  --max-w: 960px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+/* Layout */
+.wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 16px; }
+
+/* Header */
+header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(11,15,25,.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.logo { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+.logo span { color: var(--accent); }
+nav { display: flex; gap: 20px; }
+nav a { color: var(--text2); font-size: .875rem; }
+nav a:hover { color: var(--text); }
+.mobile-menu { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 80px 16px 60px;
+}
+.hero h1 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.hero p {
+  color: var(--text2);
+  font-size: 1.1rem;
+  max-width: 560px;
+  margin: 0 auto 32px;
+}
+.hero .note {
+  font-size: .85rem;
+  color: var(--text2);
+  margin-top: 12px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: background .2s;
+  min-height: 48px;
+}
+.btn:hover { background: var(--accent-hover); color: var(--accent-text); }
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+.btn-outline:hover { background: var(--accent); color: var(--accent-text); }
+.btn-sm { padding: 10px 20px; font-size: .875rem; }
+
+/* Sections */
+section { padding: 64px 0; }
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Steps */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+.step {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: center;
+}
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+.step h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.step p { color: var(--text2); font-size: .9rem; }
+
+/* Devices */
+.devices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.device-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.device-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.device-card .icon { font-size: 1.3rem; }
+.device-card p { color: var(--text2); font-size: .875rem; margin-bottom: 12px; }
+.device-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.device-links a {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .8rem;
+  color: var(--text);
+  transition: border-color .2s;
+}
+.device-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* FAQ */
+.faq-list { max-width: 680px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-q {
+  width: 100%;
+  background: none; border: none; color: var(--text);
+  font-size: 1rem; font-weight: 600;
+  text-align: left;
+  padding: 20px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-q::after { content: '+'; font-size: 1.3rem; color: var(--text2); transition: transform .2s; }
+.faq-item.open .faq-q::after { content: '−'; }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+}
+.faq-a-inner {
+  padding: 0 0 20px;
+  color: var(--text2);
+  font-size: .9rem;
+  line-height: 1.7;
+}
+
+/* CTA */
+.cta {
+  text-align: center;
+  padding: 64px 16px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.cta h2 { font-size: 1.5rem; margin-bottom: 12px; }
+.cta p { color: var(--text2); margin-bottom: 24px; }
+
+/* Footer */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text2);
+  font-size: .8rem;
+  line-height: 1.8;
+}
+footer a { color: var(--text2); }
+footer a:hover { color: var(--text); }
+
+/* Mobile */
+@media (max-width: 600px) {
+  nav { display: none; }
+  nav.open { display: flex; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 16px; gap: 12px; }
+  .mobile-menu { display: block; }
+  .hero { padding: 48px 16px 40px; }
+  section { padding: 48px 0; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <div class="logo">happ<span>.cx</span></div>
+    <nav id="nav">
+      <a href="#steps">Как подключиться</a>
+      <a href="#devices">Устройства</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <button class="mobile-menu" id="menuBtn" aria-label="Меню">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Подключение через Happ</h1>
+    <p>Happ — приложение для работы с прокси-протоколами. Установите его на любое устройство и добавьте ключ подключения от партнёрского сервиса.</p>
+    <a class="btn" href="" id="heroBtn">Получить ключ</a>
+    <div class="note">Кнопка ведёт на внешний сервис «Зумерский&nbsp;VPN»</div>
+  </div>
+</section>
+
+<section id="steps">
+  <div class="wrap">
+    <h2 class="section-title">Как подключиться</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Установите Happ</h3>
+        <p>Скачайте приложение из официального источника для вашего устройства — ссылки ниже в разделе «Устройства».</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Получите ключ</h3>
+        <p>Перейдите на сайт партнёрского сервиса и оформите подписку. Вы получите ключ подключения (ссылку).</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Добавьте ключ в Happ</h3>
+        <p>Скопируйте полученный ключ. В приложении Happ нажмите «+» и вставьте ключ. Подключение готово.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="devices" style="background:var(--bg2)">
+  <div class="wrap">
+    <h2 class="section-title">Устройства</h2>
+    <div class="devices-grid">
+
+      <div class="device-card">
+        <h3><span class="icon">📱</span> iPhone / iPad</h3>
+        <p>Установите из App Store. Для РФ-аккаунта используйте версию Happ&nbsp;Lite или TestFlight.</p>
+        <div class="device-links">
+          <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215" target="_blank" rel="noopener">App Store</a>
+          <a href="https://apps.apple.com/ru/app/happ-lite/id6799917773" target="_blank" rel="noopener">App Store (РФ)</a>
+          <a href="https://testflight.apple.com/join/XMls6Ckd" target="_blank" rel="noopener">TestFlight</a>
+        </div>
+      </div>
+
+      <div class="device-card">
+        <h3><span class="icon">🤖</span> Android</h3>
+        <p>Установите из Google Play или скачайте APK напрямую.</p>
+        <div class="device-links">
+          <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" rel="noopener">Google Play</a>
+          <a href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" target="_blank" rel="noopener">APK</a>
+        </div>
+      </div>
+
+      <div class="device-card">
+        <h3><span class="icon">🪟</span> Windows</h3>
+        <p>Скачайте установщик для вашей архитектуры.</p>
+        <div class="device-links">
+          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe" target="_blank" rel="noopener">x64</a>
+          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.arm64.exe" target="_blank" rel="noopener">ARM64</a>
+        </div>
+      </div>
+
+      <div class="device-card">
+        <h3><span class="icon">🍎</span> macOS</h3>
+        <p>Установите из App Store или скачайте DMG-файл.</p>
+        <div class="device-links">
+          <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215" target="_blank" rel="noopener">App Store</a>
+          <a href="https://apps.apple.com/ru/app/happ-proxy-utility/id6783623643" target="_blank" rel="noopener">App Store (РФ)</a>
+          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg" target="_blank" rel="noopener">DMG</a>
+        </div>
+      </div>
+
+      <div class="device-card">
+        <h3><span class="icon">🐧</span> Linux</h3>
+        <p>Выберите формат пакета для вашего дистрибутива.</p>
+        <div class="device-links">
+          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.deb" target="_blank" rel="noopener">deb (x64)</a>
+          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.rpm" target="_blank" rel="noopener">rpm (x64)</a>
+          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.pkg.tar.zst" target="_blank" rel="noopener">pkg (x64)</a>
+        </div>
+      </div>
+
+      <div class="device-card">
+        <h3><span class="icon">📺</span> TV (Android TV)</h3>
+        <p>Установите APK-версию на Android TV или Smart TV с поддержкой Android.</p>
+        <div class="device-links">
+          <a href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" target="_blank" rel="noopener">APK</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2 class="section-title">Частые вопросы</h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q">Что такое Happ?</button>
+        <div class="faq-a"><div class="faq-a-inner">Happ — приложение-клиент для работы с прокси-протоколами (VLESS, VMess, Shadowsocks и другими). Само приложение не предоставляет серверы — оно подключается к серверу с помощью ключа, который вы получаете от отдельного сервиса.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Зачем нужен ключ?</button>
+        <div class="faq-a"><div class="faq-a-inner">Ключ (ссылка подключения) содержит адрес сервера и настройки протокола. Без ключа приложению не к чему подключаться. На этом сайте вы можете перейти к партнёрскому сервису «Зумерский VPN», чтобы получить ключ.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Как добавить ключ в приложение?</button>
+        <div class="faq-a"><div class="faq-a-inner">Скопируйте ключ (он выглядит как длинная ссылка, начинающаяся с <code>vless://</code> или подобного протокола). Откройте приложение Happ, нажмите кнопку «+» или «Импорт» и вставьте ключ. После этого выберите добавленный сервер и нажмите «Подключиться».</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Подключение не работает — что делать?</button>
+        <div class="faq-a"><div class="faq-a-inner">Убедитесь, что ключ скопирован полностью, без лишних пробелов. Проверьте, что подписка на сервис активна. Попробуйте удалить сервер из Happ и добавить ключ заново. Если проблема сохраняется, обратитесь в поддержку сервиса, предоставившего ключ.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Happ.cx — это официальный сайт Happ?</button>
+        <div class="faq-a"><div class="faq-a-inner">Нет. Это партнёрский сайт, который помогает установить приложение Happ и получить ключ подключения через сервис «Зумерский VPN». Официальный сайт приложения — <a href="https://happ.info/ru/" target="_blank" rel="noopener">happ.info</a>.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Где получить помощь?</button>
+        <div class="faq-a"><div class="faq-a-inner">По вопросам работы приложения Happ обращайтесь к документации на <a href="https://docs.happ.info/" target="_blank" rel="noopener">docs.happ.info</a>. По вопросам ключа и подписки — к сервису «Зумерский VPN», на который ведёт кнопка «Получить ключ».</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <h2>Готовы подключиться?</h2>
+    <p>Установите Happ и получите ключ в два шага.</p>
+    <a class="btn" href="" id="ctaBtn">Получить ключ</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>happ.cx — партнёрский сайт. Ссылки на получение ключа ведут на внешний сервис «Зумерский&nbsp;VPN».</p>
+    <p>Приложение Happ разрабатывается командой <a href="https://happ.info/ru/" target="_blank" rel="noopener">happ.info</a>. Сайт happ.cx не связан с разработчиками приложения.</p>
+    <p style="margin-top:8px"><a href="privacy.html">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var PARTNER_URL = 'https://4zoomer.top?start=partner_79047933';
+
+  document.querySelectorAll('#heroBtn, #ctaBtn').forEach(function(el){
+    el.href = PARTNER_URL;
+    el.target = '_blank';
+    el.rel = 'noopener';
+  });
+
+  document.getElementById('menuBtn').addEventListener('click', function(){
+    document.getElementById('nav').classList.toggle('open');
+  });
+
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = this.parentElement;
+      var answer = item.querySelector('.faq-a');
+      if(item.classList.contains('open')){
+        answer.style.maxHeight = null;
+        item.classList.remove('open');
+      } else {
+        document.querySelectorAll('.faq-item.open').forEach(function(o){
+          o.querySelector('.faq-a').style.maxHeight = null;
+          o.classList.remove('open');
+        });
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
