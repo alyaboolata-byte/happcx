@@ -6,213 +6,217 @@
 <title>Happ.cx — VPN-подключение через приложение Happ</title>
 <meta name="description" content="Что такое VPN и приложение Happ, как установить клиент и добавить ключ VPN-подключения. Инструкции для iPhone, Android, Windows, macOS и Linux.">
 <link rel="canonical" href="https://happ.cx/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
 :root{
-  --bg:#07090f;--bg2:#0d1119;--card:#121826;--border:#1f2838;
-  --text:#eef1f7;--text2:#97a1b5;
-  --accent:#7c6cff;--accent2:#33d6c4;--accent-hover:#9385ff;
-  --radius:16px;--max-w:1040px;
+  --bg:#0C0C0C;--bg2:#121212;--card:#151515;--line:rgba(215,226,234,.12);
+  --text:#D7E2EA;--muted:rgba(215,226,234,.6);
+  --violet:#8b5cf6;--fuchsia:#c026d3;--teal:#33d6c4;--ember:#f97316;
+  --radius:40px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:var(--accent);text-decoration:none}
-a:hover{color:var(--accent-hover)}
-:focus-visible{outline:2px solid var(--accent2);outline-offset:3px;border-radius:6px}
-.wrap{max-width:var(--max-w);margin:0 auto;padding:0 16px}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,'Helvetica Neue',sans-serif;color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:4px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 
-/* Background glow */
-.glow{position:fixed;inset:-20% -10% auto;height:70vh;z-index:-1;pointer-events:none;background:radial-gradient(40% 50% at 25% 30%,rgba(124,108,255,.28),transparent 70%),radial-gradient(35% 45% at 75% 20%,rgba(51,214,196,.16),transparent 70%);filter:blur(20px);animation:drift 18s ease-in-out infinite alternate}
-@keyframes drift{from{transform:translate3d(-2%,0,0) scale(1)}to{transform:translate3d(2%,3%,0) scale(1.06)}}
+.hero-heading{background:linear-gradient(180deg,#646973 0%,#BBCCD7 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.grad-text{background:linear-gradient(100deg,var(--violet),var(--fuchsia) 45%,var(--teal));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;background-size:200% auto;animation:shift 6s ease-in-out infinite}
+@keyframes shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
 /* Header */
-header{position:sticky;top:0;z-index:20;background:rgba(7,9,15,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
-.logo{font-size:1.2rem;font-weight:800;letter-spacing:-.01em;color:var(--text)}
-.logo span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-nav{display:flex;gap:24px}
-nav a{color:var(--text2);font-size:.9rem;transition:color .2s}
-nav a:hover{color:var(--text)}
-.menu-btn{display:none;background:none;border:1px solid var(--border);color:var(--text);width:44px;height:44px;border-radius:10px;font-size:1.2rem;cursor:pointer}
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,backdrop-filter .3s}
+header.scrolled{background:rgba(12,12,12,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-weight:800;font-size:1.2rem;letter-spacing:-.01em}
+.logo span{color:var(--teal)}
+nav{display:flex;gap:28px}
+nav a{font-size:.88rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text);opacity:.85;transition:opacity .2s}
+nav a:hover{opacity:.55}
+.menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--text);width:44px;height:44px;border-radius:12px;font-size:1.1rem;cursor:pointer}
 
 /* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:14px 28px;border-radius:14px;font-size:1rem;font-weight:600;border:1px solid transparent;cursor:pointer;transition:transform .2s,background .2s,box-shadow .2s,border-color .2s;color:#fff;background:linear-gradient(135deg,var(--accent),#5b8cff);box-shadow:0 10px 30px -10px rgba(124,108,255,.6)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(124,108,255,.8);color:#fff}
-.btn:active{transform:translateY(0)}
-.btn-ghost{background:transparent;border-color:var(--border);color:var(--text);box-shadow:none}
-.btn-ghost:hover{border-color:var(--accent);background:rgba(124,108,255,.08);color:var(--text)}
+.pill{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 32px;border-radius:999px;font-size:.92rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#fff;background:linear-gradient(123deg,#18011F 7%,#B600A8 37%,#7621B0 72%,#BE4C00 100%);box-shadow:inset 0 4px 4px rgba(181,1,167,.25),inset 4px 4px 12px #7721B1,0 14px 40px -12px rgba(181,1,167,.55);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s;will-change:transform;overflow:hidden;isolation:isolate}
+.pill::before{content:"";position:absolute;inset:-3px;border-radius:inherit;border:2px solid rgba(255,255,255,.85);opacity:.5;z-index:-1;transition:opacity .3s,inset .3s}
+.pill::after{content:"";position:absolute;top:0;left:-80%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .8s ease}
+.pill:hover::after{left:130%}
+.pill:hover{box-shadow:inset 0 4px 4px rgba(181,1,167,.25),inset 4px 4px 12px #7721B1,0 20px 50px -10px rgba(181,1,167,.8)}
+.pill:hover::before{opacity:1;inset:-6px}
+.pill-ghost{background:transparent;box-shadow:none;border:2px solid var(--line)}
+.pill-ghost::before{display:none}
+.pill-ghost:hover{background:rgba(215,226,234,.08);box-shadow:none}
 
 /* Hero */
-.hero{padding:72px 0 56px}
-.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;font-size:.8rem;color:var(--text2);background:rgba(255,255,255,.02)}
-.badge i{width:7px;height:7px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 0 rgba(51,214,196,.6);animation:ping 2s infinite}
-@keyframes ping{0%{box-shadow:0 0 0 0 rgba(51,214,196,.6)}70%{box-shadow:0 0 0 8px rgba(51,214,196,0)}100%{box-shadow:0 0 0 0 rgba(51,214,196,0)}}
-.hero h1{font-size:clamp(2.1rem,5.4vw,3.4rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin:20px 0 18px}
-.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.lead{color:var(--text2);font-size:1.08rem;max-width:520px;margin-bottom:30px}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero{position:relative;min-height:100vh;padding:150px 0 90px;display:flex;align-items:center;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;width:100%}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:.8rem;color:var(--muted);background:rgba(255,255,255,.02)}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(51,214,196,.6)}70%{box-shadow:0 0 0 9px rgba(51,214,196,0)}100%{box-shadow:0 0 0 0 rgba(51,214,196,0)}}
+.hero h1{margin:26px 0 22px;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:.92;font-size:clamp(2.6rem,7.4vw,6.4rem)}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .line>span{background:linear-gradient(180deg,#646973 0%,#BBCCD7 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.hero h1 .line span{display:inline-block;animation:slide-up 1s cubic-bezier(.2,.7,.2,1) both}
+.hero h1 .line:nth-child(2) span{animation-delay:.12s;background:none;-webkit-text-fill-color:#BBCCD7;color:#BBCCD7}
+@keyframes slide-up{from{transform:translateY(110%)}to{transform:none}}
+.hero p.lead{color:var(--muted);font-size:1.08rem;max-width:480px;margin-bottom:34px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:16px}
 
-/* Phone mockup */
-.phone-wrap{position:relative;display:flex;justify-content:center}
-.phone{width:290px;height:580px;border-radius:44px;padding:10px;background:linear-gradient(160deg,#2b3142,#0a0c12);box-shadow:0 40px 80px -30px rgba(124,108,255,.45),inset 0 0 0 1px rgba(255,255,255,.08);animation:float 6s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+/* 3D phone */
+.stage{perspective:1400px;display:flex;justify-content:center;align-items:center;position:relative;padding:40px 0}
+.tilt{position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;will-change:transform}
+.phone{position:relative;width:290px;height:580px;border-radius:46px;padding:10px;background:linear-gradient(160deg,#2b3142,#0a0c12);box-shadow:0 60px 90px -40px rgba(139,92,246,.55),inset 0 0 0 1px rgba(255,255,255,.1);transform:translateZ(40px)}
+.phone-glow{position:absolute;inset:-60px;border-radius:80px;background:radial-gradient(closest-side,rgba(139,92,246,.45),transparent 70%);filter:blur(30px);z-index:-1;animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
 .screen{position:relative;width:100%;height:100%;border-radius:36px;background:linear-gradient(180deg,#2a2a8f 0%,#1d1b63 45%,#14133f 100%);padding:18px 14px;overflow:hidden;color:#fff}
 .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:14px;background:#000}
 .status-bar{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;font-weight:600;padding:2px 8px 0;height:22px}
 .battery{font-size:.6rem;padding:1px 5px;border-radius:4px;background:#fff;color:#000;font-weight:700}
 .top-icons{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:0 6px}
 .top-icons svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
-.power-zone{position:relative;width:170px;height:170px;margin:12px auto 0;display:grid;place-items:center}
+.power-zone{position:relative;width:170px;height:170px;margin:12px auto 0;display:grid;place-items:center;transform-style:preserve-3d}
 .ring{position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.14)}
-.ring.r1{inset:0}
+.ring.r1{inset:0;animation:pulse-ring 2.6s ease-out infinite}
 .ring.r2{inset:22px}
 .ring.r3{inset:-10px;border:1.5px solid transparent;background:conic-gradient(from 0deg,#7c6cff,#ff6a8a,#7c6cff) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 8s linear infinite}
+@keyframes pulse-ring{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.3);opacity:0}}
 @keyframes spin{to{transform:rotate(360deg)}}
-.power-btn{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 30%,#4a45b8,#2c2a7a 70%);box-shadow:0 0 40px rgba(124,108,255,.5),inset 0 0 0 1px rgba(255,255,255,.12)}
+.power-btn{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 30%,#4a45b8,#2c2a7a 70%);box-shadow:0 0 40px rgba(124,108,255,.5),inset 0 0 0 1px rgba(255,255,255,.12);transform:translateZ(30px);animation:breathe-btn 3s ease-in-out infinite}
+@keyframes breathe-btn{0%,100%{box-shadow:0 0 40px rgba(124,108,255,.5),inset 0 0 0 1px rgba(255,255,255,.12)}50%{box-shadow:0 0 70px rgba(124,108,255,.85),inset 0 0 0 1px rgba(255,255,255,.2)}}
 .power-btn svg{width:46px;height:46px;stroke:#0f0d2e;fill:none;stroke-width:3.4;stroke-linecap:round}
 .hide-all{text-align:right;font-size:.7rem;color:rgba(255,255,255,.6);margin:14px 4px 8px}
-.server{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);margin-bottom:8px}
+.server{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);margin-bottom:8px;animation:slide-in .8s cubic-bezier(.2,.7,.2,1) both}
+.server:nth-of-type(2){animation-delay:.1s}.server:nth-of-type(3){animation-delay:.2s}.server:nth-of-type(4){animation-delay:.3s}
+@keyframes slide-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
 .flag{width:34px;height:34px;border-radius:9px;flex-shrink:0;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
 .flag.de{background:linear-gradient(180deg,#000 33%,#dd0000 33% 66%,#ffce00 66%)}
 .flag.nl{background:linear-gradient(180deg,#ae1c28 33%,#fff 33% 66%,#21468b 66%)}
 .flag.pl{background:linear-gradient(180deg,#fff 50%,#dc143c 50%)}
-.flag.fi{background:#fff;position:relative}
-.flag.fi::before,.flag.fi::after{content:"";position:absolute;background:#003580}
-.flag.fi::before{left:11px;top:0;bottom:0;width:6px}
-.flag.fi::after{top:13px;left:0;right:0;height:6px}
 .server-info{flex:1;min-width:0;text-align:left}
 .server-name{font-size:.85rem;font-weight:700;white-space:nowrap}
 .server-proto{font-size:.62rem;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chev{color:rgba(255,255,255,.5);font-size:1.1rem}
-.server.faded{opacity:.35}
+.float-chip{position:absolute;padding:10px 14px;border-radius:16px;background:rgba(20,20,24,.75);border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:.8rem;white-space:nowrap;box-shadow:0 20px 40px -20px rgba(0,0,0,.8)}
+.float-chip b{color:var(--teal);font-weight:700}
+.fc1{top:12%;left:-6%;transform:translateZ(90px);animation:bob 5s ease-in-out infinite}
+.fc2{bottom:14%;right:-8%;transform:translateZ(70px);animation:bob 6s ease-in-out infinite reverse}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -12px}}
 
-/* Platforms marquee */
-.marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);overflow:hidden;padding:18px 0}
-.marquee-track{display:flex;gap:48px;width:max-content;animation:scroll 28s linear infinite}
-.marquee-track span{font-weight:600;color:var(--text2);white-space:nowrap;font-size:.95rem;letter-spacing:.02em}
-.marquee-track span::before{content:"◆";color:var(--accent);margin-right:48px;font-size:.6rem;vertical-align:middle}
-@keyframes scroll{to{transform:translateX(-50%)}}
+/* Marquee */
+.marquee{position:relative;padding:28px 0;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+.row{display:flex;gap:16px;width:max-content;will-change:transform;margin:10px 0}
+.tile{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:14px 26px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.tile i{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--teal))}
 
 /* Sections */
-section{padding:88px 0}
-.eyebrow{font-size:.8rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;font-weight:700;text-align:center;margin-bottom:12px}
-.section-title{font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:800;text-align:center;letter-spacing:-.015em;margin-bottom:48px}
+section{position:relative;padding:120px 0}
+.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.2em;font-weight:700;margin-bottom:14px}
+.section-title{font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;font-size:clamp(2.4rem,7vw,5.6rem);margin-bottom:56px}
 
-/* Steps */
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-.step{position:relative;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--border);border-radius:var(--radius);padding:30px 26px;transition:transform .3s,border-color .3s}
-.step:hover{transform:translateY(-6px);border-color:rgba(124,108,255,.5)}
-.step-num{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:800;font-size:1.05rem;margin-bottom:18px}
-.step h3{font-size:1.1rem;margin-bottom:8px}
-.step p{color:var(--text2);font-size:.92rem}
+/* About: 3D shapes + scroll text */
+.about{min-height:100vh;display:flex;align-items:center}
+.about-inner{text-align:center;max-width:860px;margin:0 auto;position:relative;z-index:1}
+.reveal-text{font-size:clamp(1.25rem,2.9vw,2.2rem);font-weight:600;line-height:1.35;color:var(--text);max-width:820px;margin:0 auto;text-align:left}
+.reveal-text .ch{position:relative;display:inline}
+.reveal-text .ch>span{transition:opacity .15s linear}
+.about-cta{margin-top:70px}
+.shape{position:absolute;pointer-events:none;transform-style:preserve-3d;z-index:0}
+.orb-3d{border-radius:50%;background:radial-gradient(circle at 32% 28%,#d8c9ff 0%,#8b5cf6 25%,#2a1a6b 62%,#0c0c14 100%);box-shadow:inset -20px -26px 50px rgba(0,0,0,.6),0 0 60px rgba(139,92,246,.35);animation:float-y 7s ease-in-out infinite}
+.orb-3d.o2{background:radial-gradient(circle at 32% 28%,#c6fff6 0%,#33d6c4 26%,#0f3d3a 64%,#0a0f0f 100%);box-shadow:inset -20px -26px 50px rgba(0,0,0,.6),0 0 60px rgba(51,214,196,.3)}
+.orb-3d.o3{background:radial-gradient(circle at 32% 28%,#ffd7b5 0%,#f97316 26%,#4a1a06 66%,#0c0a08 100%);box-shadow:inset -20px -26px 50px rgba(0,0,0,.6),0 0 60px rgba(249,115,22,.3)}
+@keyframes float-y{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+.cube{width:90px;height:90px;transform-style:preserve-3d;animation:cube-spin 14s linear infinite}
+.cube div{position:absolute;inset:0;border:1px solid rgba(215,226,234,.35);background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(51,214,196,.12));backdrop-filter:blur(2px)}
+.cube .f1{transform:translateZ(45px)}.cube .f2{transform:rotateY(90deg) translateZ(45px)}.cube .f3{transform:rotateY(180deg) translateZ(45px)}
+.cube .f4{transform:rotateY(-90deg) translateZ(45px)}.cube .f5{transform:rotateX(90deg) translateZ(45px)}.cube .f6{transform:rotateX(-90deg) translateZ(45px)}
+@keyframes cube-spin{from{transform:rotateX(-20deg) rotateY(0)}to{transform:rotateX(-20deg) rotateY(360deg)}}
+.s1{width:150px;height:150px;top:8%;left:4%}
+.s2{width:110px;height:110px;bottom:10%;left:8%}
+.s3{width:130px;height:130px;top:12%;right:5%}
+.s4{top:auto;bottom:10%;right:10%;transform:scale(1.1)}
+.s4 .cube{width:80px;height:80px}
 
-/* Devices */
-.devices-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-.device-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:transform .3s,border-color .3s,box-shadow .3s}
-.device-card:hover{transform:translateY(-4px);border-color:rgba(51,214,196,.4);box-shadow:0 20px 40px -24px rgba(51,214,196,.5)}
-.device-card h3{font-size:1.1rem;margin-bottom:6px;display:flex;align-items:center;gap:10px}
-.device-card .icon{font-size:1.4rem}
-.device-card p{color:var(--text2);font-size:.88rem;margin-bottom:14px}
-.device-links{display:flex;flex-wrap:wrap;gap:8px}
-.device-links a{display:inline-block;padding:8px 14px;border:1px solid var(--border);border-radius:10px;font-size:.82rem;color:var(--text);transition:border-color .2s,background .2s}
-.device-links a:hover{border-color:var(--accent2);background:rgba(51,214,196,.06);color:var(--text)}
+/* Steps: 3D tilt cards */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;perspective:1200px}
+.step{position:relative;padding:34px 28px;border-radius:32px;border:1px solid var(--line);background:linear-gradient(180deg,#171717,#0f0f0f);transform-style:preserve-3d;transition:transform .4s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .4s;will-change:transform}
+.step:hover{border-color:rgba(139,92,246,.5);box-shadow:0 30px 60px -30px rgba(139,92,246,.6)}
+.step-num{display:inline-grid;place-items:center;width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--violet),var(--teal));color:#fff;font-weight:900;font-size:1.2rem;margin-bottom:22px;transform:translateZ(40px);box-shadow:0 14px 30px -10px rgba(139,92,246,.7)}
+.step h3{font-size:1.2rem;margin-bottom:10px;transform:translateZ(20px)}
+.step p{color:var(--muted);font-size:.95rem;transform:translateZ(10px)}
+
+/* Devices: sticky stacking cards */
+.stack{position:relative}
+.stack-card{position:sticky;top:120px;margin-bottom:28px;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(160deg,#181818,#0d0d0d);padding:clamp(24px,4vw,44px);display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,3vw,36px);align-items:start;transform-origin:center top;will-change:transform;box-shadow:0 -20px 60px -30px rgba(0,0,0,.9)}
+.stack-card:nth-child(2){top:140px}.stack-card:nth-child(3){top:160px}.stack-card:nth-child(4){top:180px}.stack-card:nth-child(5){top:200px}.stack-card:nth-child(6){top:220px}
+.stack-num{font-weight:900;font-size:clamp(3rem,9vw,7rem);line-height:.85;background:linear-gradient(180deg,#646973,#BBCCD7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.stack-body h3{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px}
+.stack-body p{color:var(--muted);margin-bottom:18px;font-size:.95rem}
+.device-links{display:flex;flex-wrap:wrap;gap:10px}
+.device-links a{display:inline-block;padding:10px 16px;border:1px solid var(--line);border-radius:999px;font-size:.84rem;color:var(--text);transition:border-color .25s,background .25s,transform .25s}
+.device-links a:hover{border-color:var(--teal);background:rgba(51,214,196,.08);transform:translateY(-2px)}
 
 /* FAQ */
-.faq-list{max-width:720px;margin:0 auto}
-.faq-item{border-bottom:1px solid var(--border)}
-.faq-q{width:100%;background:none;border:none;color:var(--text);font-size:1rem;font-weight:600;text-align:left;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:inherit}
-.faq-q::after{content:'+';font-size:1.4rem;color:var(--accent2);transition:transform .3s;flex-shrink:0}
+.faq-list{max-width:760px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;background:none;border:none;color:var(--text);font-size:1.05rem;font-weight:600;text-align:left;padding:22px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-q::after{content:'+';font-size:1.5rem;color:var(--teal);transition:transform .35s;flex-shrink:0}
 .faq-item.open .faq-q::after{transform:rotate(45deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.faq-a-inner{padding:0 0 20px;color:var(--text2);font-size:.92rem;line-height:1.7}
-.faq-a-inner a{color:var(--accent2)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-a-inner{padding:0 0 22px;color:var(--muted);font-size:.95rem;line-height:1.7;opacity:0;transform:translateY(-6px);transition:opacity .35s ease,transform .35s ease}
+.faq-item.open .faq-a-inner{opacity:1;transform:none}
+.faq-a-inner a{color:var(--teal)}
+.faq-a-inner code{color:var(--text)}
 
 /* CTA */
-.cta{position:relative;text-align:center;padding:96px 16px;overflow:hidden;border-top:1px solid var(--border)}
-.cta::before{content:"";position:absolute;left:50%;top:50%;width:720px;height:720px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(124,108,255,.25),transparent 65%);z-index:-1;animation:pulse 6s ease-in-out infinite}
-@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(.9);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.05);opacity:1}}
-.cta h2{font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:800;margin-bottom:12px;letter-spacing:-.015em}
-.cta p{color:var(--text2);margin-bottom:28px}
+.cta{position:relative;text-align:center;padding:140px 16px;overflow:hidden;border-top:1px solid var(--line)}
+.cta::before{content:"";position:absolute;left:50%;top:50%;width:820px;height:820px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(139,92,246,.28),rgba(51,214,196,.08) 45%,transparent 70%);animation:breathe 7s ease-in-out infinite;z-index:-1}
+.cta h2{font-weight:900;text-transform:uppercase;font-size:clamp(2.2rem,6vw,4.8rem);line-height:.95;letter-spacing:-.02em;margin-bottom:18px}
+.cta p{color:var(--muted);margin-bottom:36px}
 
-/* Footer */
-footer{padding:36px 16px;text-align:center;color:var(--text2);font-size:.82rem;border-top:1px solid var(--border)}
-footer a{color:var(--text2)}
+footer{padding:40px 16px;text-align:center;color:var(--muted);font-size:.82rem;border-top:1px solid var(--line)}
 footer a:hover{color:var(--text)}
 
-/* Reveal on scroll */
-.reveal{opacity:0;transform:translateY(28px) scale(.98);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+/* Reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
-.steps .step:nth-child(2),.devices-grid .device-card:nth-child(2){transition-delay:.12s}
-.steps .step:nth-child(3),.devices-grid .device-card:nth-child(3){transition-delay:.24s}
-.devices-grid .device-card:nth-child(4){transition-delay:.1s}
-.devices-grid .device-card:nth-child(5){transition-delay:.2s}
-.devices-grid .device-card:nth-child(6){transition-delay:.3s}
+.steps .step:nth-child(2){transition-delay:.12s}.steps .step:nth-child(3){transition-delay:.24s}
 
-/* Extra motion */
-.hero h1 em{background-size:200% auto;animation:gradient-shift 5s ease-in-out infinite}
-@keyframes gradient-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.eyebrow{background:linear-gradient(90deg,var(--accent2),var(--accent),var(--accent2));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradient-shift 4s ease-in-out infinite}
-.btn{position:relative;overflow:hidden;isolation:isolate}
-.btn::after{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .7s ease}
-.btn:hover::after{left:125%}
-.hero-grid>div:first-child>*{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
-.hero-grid>div:first-child>*:nth-child(1){animation-delay:.05s}
-.hero-grid>div:first-child>*:nth-child(2){animation-delay:.15s}
-.hero-grid>div:first-child>*:nth-child(3){animation-delay:.25s}
-.hero-grid>div:first-child>*:nth-child(4){animation-delay:.35s}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.orb{position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none;z-index:-1}
-.orb.o1{width:260px;height:260px;background:rgba(124,108,255,.45);top:-30px;left:-20px;animation:float-a 9s ease-in-out infinite}
-.orb.o2{width:200px;height:200px;background:rgba(51,214,196,.35);bottom:10px;right:-10px;animation:float-b 11s ease-in-out infinite}
-@keyframes float-a{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
-@keyframes float-b{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-30px)}}
-.power-btn{animation:breathe 3s ease-in-out infinite}
-@keyframes breathe{0%,100%{box-shadow:0 0 40px rgba(124,108,255,.5),inset 0 0 0 1px rgba(255,255,255,.12)}50%{box-shadow:0 0 70px rgba(124,108,255,.8),inset 0 0 0 1px rgba(255,255,255,.2)}}
-.device-card:hover h3 .icon{display:inline-block;animation:wiggle .5s ease}
-@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg) scale(1.1)}75%{transform:rotate(10deg) scale(1.1)}}
-.step-num{transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
-.step:hover .step-num{transform:scale(1.12) rotate(-6deg)}
-.faq-a-inner{opacity:0;transform:translateY(-6px);transition:opacity .35s ease,transform .35s ease}
-.faq-item.open .faq-a-inner{opacity:1;transform:none}
-
-@media (max-width:860px){
+@media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;text-align:center}
   .hero p.lead{margin-left:auto;margin-right:auto}
   .hero-actions{justify-content:center}
-  .phone{width:270px;height:540px}
+  .stage{padding:20px 0}
+  .fc1{left:0}.fc2{right:0}
   nav{display:none}
-  nav.open{display:flex;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);padding:16px;gap:14px}
+  nav.open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:rgba(12,12,12,.95);border-bottom:1px solid var(--line);padding:20px;gap:18px}
   .menu-btn{display:block}
+  .s1,.s3{width:90px;height:90px}
+  .s2,.s4{display:none}
 }
 @media (max-width:600px){
-  .hero{padding:48px 0 40px}
-  section{padding:64px 0}
-  .btn{width:100%}
-  .hero-actions .btn{flex:1 1 100%}
+  .hero{padding:120px 0 70px}
+  section{padding:88px 0}
+  .phone{width:260px;height:520px}
+  .stack-card{grid-template-columns:1fr;top:96px!important}
+  .stack-num{font-size:3.2rem}
+  .pill{width:100%}
+  .hero-actions .pill{flex:1 1 100%}
+  .float-chip{font-size:.72rem;padding:8px 10px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .reveal{opacity:1;transform:none}
+  .reveal-text .ch>span{opacity:1!important}
 }
 </style>
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7c6cff"/>
-      <stop offset="1" stop-color="#33d6c4"/>
-    </linearGradient>
-  </defs>
-</svg>
-
-<div class="glow" aria-hidden="true"></div>
-
-<header>
+<header id="top">
   <div class="wrap header-inner">
-    <a class="logo" href="/">happ<span>.cx</span></a>
+    <a class="logo" href="#top">happ<span>.cx</span></a>
     <nav id="nav">
       <a href="#steps">Как подключиться</a>
       <a href="#devices">Устройства</a>
@@ -227,81 +231,90 @@ footer a:hover{color:var(--text)}
   <div class="wrap hero-grid">
     <div>
       <span class="badge"><i></i> Приложение Happ для iOS, Android и ПК</span>
-      <h1>Подключение через <em>Happ</em></h1>
+      <h1>
+        <span class="line"><span>Подключение</span></span>
+        <span class="line"><span>через <span class="grad-text">Happ</span></span></span>
+      </h1>
       <p class="lead">Happ — приложение-клиент. Установите его на устройство, получите ключ у партнёрского сервиса и добавьте ключ в приложение.</p>
       <div class="hero-actions">
-        <a class="btn" href="" data-partner>Получить ключ →</a>
-        <a class="btn btn-ghost" href="#steps">Как это работает</a>
+        <a class="pill" href="" data-partner data-magnet>Получить ключ →</a>
+        <a class="pill pill-ghost" href="#steps" data-magnet>Как это работает</a>
       </div>
     </div>
-    <div class="phone-wrap" aria-hidden="true">
-      <span class="orb o1"></span><span class="orb o2"></span>
-      <div class="phone">
-        <div class="screen">
-          <div class="notch"></div>
-          <div class="status-bar"><span>15:56</span><span class="battery">43</span></div>
-          <div class="top-icons">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-          </div>
-          <div class="power-zone">
-            <span class="ring r1"></span>
-            <span class="ring r2"></span>
-            <span class="ring r3"></span>
-            <div class="power-btn">
-              <svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/></svg>
+
+    <div class="stage" aria-hidden="true" id="stage">
+      <div class="tilt" id="tilt">
+        <div class="phone-glow"></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="status-bar"><span>15:56</span><span class="battery">43</span></div>
+            <div class="top-icons">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
             </div>
-          </div>
-          <div class="hide-all">Скрыть все</div>
-          <div class="server">
-            <span class="flag de"></span>
-            <div class="server-info"><div class="server-name">Германия</div><div class="server-proto">VLESS | TCP | Reality | JSON</div></div>
-            <span class="chev">›</span>
-          </div>
-          <div class="server">
-            <span class="flag nl"></span>
-            <div class="server-info"><div class="server-name">Нидерланды</div><div class="server-proto">VLESS | TCP | Reality | JSON</div></div>
-            <span class="chev">›</span>
-          </div>
-          <div class="server">
-            <span class="flag pl"></span>
-            <div class="server-info"><div class="server-name">Польша</div><div class="server-proto">VLESS | xhttp | Reality | JSON</div></div>
-            <span class="chev">›</span>
-          </div>
-          <div class="server faded">
-            <span class="flag fi"></span>
-            <div class="server-info"><div class="server-name">Финляндия</div><div class="server-proto">VLESS | TCP | Reality | JSON</div></div>
-            <span class="chev">›</span>
+            <div class="power-zone">
+              <span class="ring r1"></span>
+              <span class="ring r2"></span>
+              <span class="ring r3"></span>
+              <div class="power-btn">
+                <svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/></svg>
+              </div>
+            </div>
+            <div class="hide-all">Скрыть все</div>
+            <div class="server"><span class="flag de"></span><div class="server-info"><div class="server-name">Германия</div><div class="server-proto">VLESS | TCP | Reality | JSON</div></div><span class="chev">›</span></div>
+            <div class="server"><span class="flag nl"></span><div class="server-info"><div class="server-name">Нидерланды</div><div class="server-proto">VLESS | TCP | Reality | JSON</div></div><span class="chev">›</span></div>
+            <div class="server"><span class="flag pl"></span><div class="server-info"><div class="server-name">Польша</div><div class="server-proto">VLESS | xhttp | Reality | JSON</div></div><span class="chev">›</span></div>
           </div>
         </div>
+        <div class="float-chip fc1">Ключ <b>добавлен</b></div>
+        <div class="float-chip fc2">Серверы <b>из ключа</b></div>
       </div>
     </div>
   </div>
 </section>
 
 <div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>iPhone</span><span>iPad</span><span>Android</span><span>Windows</span><span>macOS</span><span>Linux</span><span>Android TV</span>
-    <span>iPhone</span><span>iPad</span><span>Android</span><span>Windows</span><span>macOS</span><span>Linux</span><span>Android TV</span>
+  <div class="row" id="row1">
+    <span class="tile"><i></i>iPhone</span><span class="tile"><i></i>iPad</span><span class="tile"><i></i>Android</span><span class="tile"><i></i>Windows</span><span class="tile"><i></i>macOS</span><span class="tile"><i></i>Linux</span><span class="tile"><i></i>Android TV</span>
+    <span class="tile"><i></i>iPhone</span><span class="tile"><i></i>iPad</span><span class="tile"><i></i>Android</span><span class="tile"><i></i>Windows</span><span class="tile"><i></i>macOS</span><span class="tile"><i></i>Linux</span><span class="tile"><i></i>Android TV</span>
+    <span class="tile"><i></i>iPhone</span><span class="tile"><i></i>iPad</span><span class="tile"><i></i>Android</span><span class="tile"><i></i>Windows</span><span class="tile"><i></i>macOS</span><span class="tile"><i></i>Linux</span><span class="tile"><i></i>Android TV</span>
+  </div>
+  <div class="row" id="row2">
+    <span class="tile"><i></i>Скачать</span><span class="tile"><i></i>Ключ</span><span class="tile"><i></i>Подключиться</span><span class="tile"><i></i>VLESS</span><span class="tile"><i></i>Reality</span><span class="tile"><i></i>Happ</span>
+    <span class="tile"><i></i>Скачать</span><span class="tile"><i></i>Ключ</span><span class="tile"><i></i>Подключиться</span><span class="tile"><i></i>VLESS</span><span class="tile"><i></i>Reality</span><span class="tile"><i></i>Happ</span>
+    <span class="tile"><i></i>Скачать</span><span class="tile"><i></i>Ключ</span><span class="tile"><i></i>Подключиться</span><span class="tile"><i></i>VLESS</span><span class="tile"><i></i>Reality</span><span class="tile"><i></i>Happ</span>
   </div>
 </div>
 
+<section class="about" id="about">
+  <div class="shape s1 orb-3d" aria-hidden="true"></div>
+  <div class="shape s2 orb-3d o2" aria-hidden="true"></div>
+  <div class="shape s3 orb-3d o3" aria-hidden="true"></div>
+  <div class="shape s4" aria-hidden="true"><div class="cube"><div class="f1"></div><div class="f2"></div><div class="f3"></div><div class="f4"></div><div class="f5"></div><div class="f6"></div></div></div>
+  <div class="wrap about-inner">
+    <p class="eyebrow grad-text">Что такое VPN</p>
+    <p class="reveal-text" id="scrollText">VPN передаёт трафик устройства через удалённый сервер, и сайты видят адрес этого сервера, а не ваш. Happ — клиент: он подключается по ключу. Серверов сам не предоставляет, ключ выдаёт партнёрский сервис.</p>
+    <div class="about-cta"><a class="pill" href="" data-partner data-magnet>Получить ключ →</a></div>
+  </div>
+</section>
+
 <section id="steps">
   <div class="wrap">
-    <p class="eyebrow reveal">Три шага</p>
-    <h2 class="section-title reveal">Как подключиться</h2>
+    <p class="eyebrow grad-text reveal">Три шага</p>
+    <h2 class="section-title hero-heading reveal">Как подключиться</h2>
     <div class="steps">
-      <div class="step reveal">
+      <div class="step reveal tilt-card">
         <div class="step-num">1</div>
         <h3>Установите Happ</h3>
         <p>Скачайте приложение из официального источника для вашего устройства. Ссылки ниже, в разделе «Устройства».</p>
       </div>
-      <div class="step reveal">
+      <div class="step reveal tilt-card">
         <div class="step-num">2</div>
         <h3>Получите ключ</h3>
         <p>Перейдите на сайт партнёрского сервиса и оформите доступ. Вы получите ключ подключения.</p>
       </div>
-      <div class="step reveal">
+      <div class="step reveal tilt-card">
         <div class="step-num">3</div>
         <h3>Добавьте ключ в Happ</h3>
         <p>Скопируйте ключ, в приложении нажмите «+» и вставьте его. После этого можно подключаться.</p>
@@ -310,106 +323,98 @@ footer a:hover{color:var(--text)}
   </div>
 </section>
 
-<section id="vpn">
+<section id="devices" style="padding-top:40px">
   <div class="wrap">
-    <p class="eyebrow reveal">VPN</p>
-    <h2 class="section-title reveal">VPN и Happ: коротко о главном</h2>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">?</div>
-        <h3>Что делает VPN</h3>
-        <p>VPN (виртуальная частная сеть) передаёт трафик устройства через удалённый сервер. Сайты видят адрес сервера, а не ваш домашний адрес.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">H</div>
-        <h3>Роль Happ</h3>
-        <p>Happ — клиент, который подключается к VPN-серверу по ключу. Сами серверы приложение не предоставляет, ключ выдаёт отдельный сервис.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">P</div>
-        <h3>Протоколы</h3>
-        <p>В ключе указан протокол, например VLESS. Он задаёт способ передачи данных. Набор протоколов зависит от сервиса, который выдал ключ.</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">✓</div>
-        <h3>Что проверить перед покупкой</h3>
-        <p>Условия подписки, срок доступа, число устройств и политику конфиденциальности сервиса. Эти данные указывает партнёр, а не этот сайт.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="devices" style="background:var(--bg2);border-top:1px solid var(--border)">
-  <div class="wrap">
-    <p class="eyebrow reveal">Скачать</p>
-    <h2 class="section-title reveal">Устройства</h2>
-    <div class="devices-grid">
-
-      <div class="device-card reveal">
-        <h3><span class="icon">📱</span> iPhone / iPad</h3>
-        <p>Установите из App Store. Для РФ-аккаунта доступна версия Happ Lite. Также есть TestFlight.</p>
-        <div class="device-links">
-          <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215" target="_blank" rel="noopener">App Store</a>
-          <a href="https://apps.apple.com/ru/app/happ-lite/id6799917773" target="_blank" rel="noopener">App Store (РФ)</a>
-          <a href="https://testflight.apple.com/join/XMls6Ckd" target="_blank" rel="noopener">TestFlight</a>
+    <p class="eyebrow grad-text reveal">Скачать</p>
+    <h2 class="section-title hero-heading reveal">Устройства</h2>
+    <div class="stack">
+      <article class="stack-card">
+        <div class="stack-num">01</div>
+        <div class="stack-body">
+          <h3>iPhone / iPad</h3>
+          <p>Установите из App Store. Для РФ-аккаунта доступна версия Happ Lite. Также есть TestFlight.</p>
+          <div class="device-links">
+            <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215" target="_blank" rel="noopener">App Store</a>
+            <a href="https://apps.apple.com/ru/app/happ-lite/id6799917773" target="_blank" rel="noopener">App Store (РФ)</a>
+            <a href="https://testflight.apple.com/join/XMls6Ckd" target="_blank" rel="noopener">TestFlight</a>
+          </div>
         </div>
-      </div>
-
-      <div class="device-card reveal">
-        <h3><span class="icon">🤖</span> Android</h3>
-        <p>Установите из Google Play или скачайте APK напрямую.</p>
-        <div class="device-links">
-          <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" rel="noopener">Google Play</a>
-          <a href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" target="_blank" rel="noopener">APK</a>
+      </article>
+      <article class="stack-card">
+        <div class="stack-num">02</div>
+        <div class="stack-body">
+          <h3>Android</h3>
+          <p>Установите из Google Play или скачайте APK напрямую.</p>
+          <div class="device-links">
+            <a href="https://play.google.com/store/apps/details?id=com.happproxy" target="_blank" rel="noopener">Google Play</a>
+            <a href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" target="_blank" rel="noopener">APK</a>
+          </div>
         </div>
-      </div>
-
-      <div class="device-card reveal">
-        <h3><span class="icon">🪟</span> Windows</h3>
-        <p>Скачайте установщик для вашей архитектуры.</p>
-        <div class="device-links">
-          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe" target="_blank" rel="noopener">x64</a>
-          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.arm64.exe" target="_blank" rel="noopener">ARM64</a>
+      </article>
+      <article class="stack-card">
+        <div class="stack-num">03</div>
+        <div class="stack-body">
+          <h3>Windows</h3>
+          <p>Скачайте установщик для вашей архитектуры.</p>
+          <div class="device-links">
+            <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe" target="_blank" rel="noopener">x64</a>
+            <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.arm64.exe" target="_blank" rel="noopener">ARM64</a>
+          </div>
         </div>
-      </div>
-
-      <div class="device-card reveal">
-        <h3><span class="icon">🍎</span> macOS</h3>
-        <p>Установите из App Store или скачайте DMG-файл.</p>
-        <div class="device-links">
-          <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215" target="_blank" rel="noopener">App Store</a>
-          <a href="https://apps.apple.com/ru/app/happ-proxy-utility/id6783623643" target="_blank" rel="noopener">App Store (РФ)</a>
-          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg" target="_blank" rel="noopener">DMG</a>
+      </article>
+      <article class="stack-card">
+        <div class="stack-num">04</div>
+        <div class="stack-body">
+          <h3>macOS</h3>
+          <p>Установите из App Store или скачайте DMG-файл.</p>
+          <div class="device-links">
+            <a href="https://apps.apple.com/us/app/happ-proxy-utility/id6504287215" target="_blank" rel="noopener">App Store</a>
+            <a href="https://apps.apple.com/ru/app/happ-proxy-utility/id6783623643" target="_blank" rel="noopener">App Store (РФ)</a>
+            <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.macOS.universal.dmg" target="_blank" rel="noopener">DMG</a>
+          </div>
         </div>
-      </div>
-
-      <div class="device-card reveal">
-        <h3><span class="icon">🐧</span> Linux</h3>
-        <p>Выберите формат пакета для вашего дистрибутива.</p>
-        <div class="device-links">
-          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.deb" target="_blank" rel="noopener">deb (x64)</a>
-          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.rpm" target="_blank" rel="noopener">rpm (x64)</a>
-          <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.pkg.tar.zst" target="_blank" rel="noopener">pkg (x64)</a>
+      </article>
+      <article class="stack-card">
+        <div class="stack-num">05</div>
+        <div class="stack-body">
+          <h3>Linux</h3>
+          <p>Выберите формат пакета для вашего дистрибутива.</p>
+          <div class="device-links">
+            <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.deb" target="_blank" rel="noopener">deb (x64)</a>
+            <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.rpm" target="_blank" rel="noopener">rpm (x64)</a>
+            <a href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/Happ.linux.x64.pkg.tar.zst" target="_blank" rel="noopener">pkg (x64)</a>
+          </div>
         </div>
-      </div>
-
-      <div class="device-card reveal">
-        <h3><span class="icon">📺</span> TV (Android TV)</h3>
-        <p>Установите APK-версию на Android TV или Smart TV с поддержкой Android.</p>
-        <div class="device-links">
-          <a href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" target="_blank" rel="noopener">APK</a>
+      </article>
+      <article class="stack-card">
+        <div class="stack-num">06</div>
+        <div class="stack-body">
+          <h3>Android TV</h3>
+          <p>Установите APK-версию на Android TV или Smart TV с поддержкой Android.</p>
+          <div class="device-links">
+            <a href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk" target="_blank" rel="noopener">APK</a>
+          </div>
         </div>
-      </div>
-
+      </article>
     </div>
   </div>
 </section>
 
 <section id="faq">
   <div class="wrap">
-    <p class="eyebrow reveal">FAQ</p>
-    <h2 class="section-title reveal">Частые вопросы</h2>
+    <p class="eyebrow grad-text reveal">FAQ</p>
+    <h2 class="section-title hero-heading reveal">Вопросы</h2>
     <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Что такое VPN?</button>
+        <div class="faq-a"><div class="faq-a-inner">VPN — способ передавать трафик устройства через защищённое соединение с удалённым сервером. Подробнее о поддержке и условиях сообщает сервис, который выдал ключ.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Happ — это VPN-сервис?</button>
+        <div class="faq-a"><div class="faq-a-inner">Happ — это клиент, а не сервис. Он работает с VPN-ключом, который вы получаете отдельно. Сам Happ серверов не предоставляет.</div></div>
+      </div>
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Что такое Happ?</button>
@@ -431,26 +436,6 @@ footer a:hover{color:var(--text)}
         <div class="faq-a"><div class="faq-a-inner">Убедитесь, что ключ скопирован полностью, без лишних пробелов. Проверьте, что подписка на сервис активна. Попробуйте удалить сервер из Happ и добавить ключ заново. Если проблема сохраняется, обратитесь в поддержку сервиса, предоставившего ключ.</div></div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Happ.cx — это официальный сайт Happ?</button>
-        <div class="faq-a"><div class="faq-a-inner">Нет. Это партнёрский сайт, который помогает установить приложение Happ и получить ключ подключения через сервис «Зумерский VPN». Официальный сайт приложения — <a href="https://happ.info/ru/" target="_blank" rel="noopener">happ.info</a>.</div></div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Где получить помощь?</button>
-        <div class="faq-a"><div class="faq-a-inner">По вопросам работы приложения Happ обращайтесь к документации на <a href="https://docs.happ.info/" target="_blank" rel="noopener">docs.happ.info</a>. По вопросам ключа и подписки — к сервису «Зумерский VPN», на который ведёт кнопка «Получить ключ».</div></div>
-      </div>
-
-    <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Что такое VPN?</button>
-        <div class="faq-a"><div class="faq-a-inner">VPN — способ передавать трафик устройства через защищённое соединение с удалённым сервером. Так устроены многие сервисы для доступа в интернет через VPN-подключение. Подробнее о поддержке и условиях сообщает сервис, который выдал ключ.</div></div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Happ — это VPN-сервис?</button>
-        <div class="faq-a"><div class="faq-a-inner">Happ — это клиент, а не сервис. Он работает с VPN-ключом, который вы получаете отдельно. Сам Happ серверов не предоставляет.</div></div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -458,28 +443,27 @@ footer a:hover{color:var(--text)}
 
 <div class="cta">
   <div class="wrap reveal">
-    <h2>Готовы подключиться?</h2>
+    <h2 class="hero-heading">Готовы подключиться?</h2>
     <p>Установите Happ и получите ключ в два шага.</p>
-    <a class="btn" href="" data-partner>Получить ключ →</a>
+    <a class="pill" href="" data-partner data-magnet>Получить ключ →</a>
   </div>
 </div>
 
 <footer>
-  <div class="wrap">
-    <p style="margin-top:8px"><a href="privacy.html">Политика конфиденциальности</a></p>
-  </div>
+  <div class="wrap"><a href="privacy.html">Политика конфиденциальности</a></div>
 </footer>
 
 <script>
 (function(){
   var PARTNER_URL = 'https://4zoomer.top?start=partner_79047933';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
 
   document.querySelectorAll('[data-partner]').forEach(function(el){
-    el.href = PARTNER_URL;
-    el.target = '_blank';
-    el.rel = 'noopener';
+    el.href = PARTNER_URL; el.target = '_blank'; el.rel = 'noopener';
   });
 
+  var header = document.querySelector('header');
   var menuBtn = document.getElementById('menuBtn');
   var nav = document.getElementById('nav');
   menuBtn.addEventListener('click', function(){
@@ -491,13 +475,13 @@ footer a:hover{color:var(--text)}
     btn.addEventListener('click', function(){
       var item = this.parentElement;
       var answer = item.querySelector('.faq-a');
-      var isOpen = item.classList.contains('open');
+      var wasOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(function(o){
         o.querySelector('.faq-a').style.maxHeight = null;
         o.classList.remove('open');
         o.querySelector('.faq-q').setAttribute('aria-expanded','false');
       });
-      if(!isOpen){
+      if(!wasOpen){
         item.classList.add('open');
         answer.style.maxHeight = answer.scrollHeight + 'px';
         this.setAttribute('aria-expanded','true');
@@ -511,6 +495,102 @@ footer a:hover{color:var(--text)}
     });
   },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  if(reduce) return;
+
+  if(finePointer){
+    var stage = document.getElementById('stage');
+    var tilt = document.getElementById('tilt');
+    stage.addEventListener('mousemove', function(e){
+      var r = stage.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - .5;
+      var y = (e.clientY - r.top) / r.height - .5;
+      tilt.style.setProperty('--ry', (x * 18).toFixed(2) + 'deg');
+      tilt.style.setProperty('--rx', (-y * 14).toFixed(2) + 'deg');
+    });
+    stage.addEventListener('mouseleave', function(){
+      tilt.style.setProperty('--rx','0deg'); tilt.style.setProperty('--ry','0deg');
+    });
+
+    document.querySelectorAll('.tilt-card').forEach(function(card){
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - .5;
+        var y = (e.clientY - r.top) / r.height - .5;
+        card.style.transform = 'perspective(900px) rotateX(' + (-y * 10).toFixed(2) + 'deg) rotateY(' + (x * 12).toFixed(2) + 'deg) translateY(-6px)';
+      });
+      card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
+    });
+
+    document.querySelectorAll('[data-magnet]').forEach(function(el){
+      window.addEventListener('mousemove', function(e){
+        var r = el.getBoundingClientRect();
+        var cx = r.left + r.width/2, cy = r.top + r.height/2;
+        var dx = e.clientX - cx, dy = e.clientY - cy;
+        var near = Math.abs(dx) < r.width/2 + 70 && Math.abs(dy) < r.height/2 + 70;
+        el.style.transition = near ? 'transform .25s ease-out, box-shadow .3s' : 'transform .6s ease-in-out, box-shadow .3s';
+        el.style.transform = near ? 'translate3d(' + (dx*.25).toFixed(1) + 'px,' + (dy*.35).toFixed(1) + 'px,0)' : '';
+      });
+    });
+  }
+
+  var row1 = document.getElementById('row1'), row2 = document.getElementById('row2');
+  var marquee = document.querySelector('.marquee');
+  var scText = document.getElementById('scrollText');
+  var chars = [];
+  (function split(node){
+    var text = node.textContent;
+    node.textContent = '';
+    node.setAttribute('aria-label', text);
+    var frag = document.createDocumentFragment();
+    Array.from(text).forEach(function(c){
+      var s = document.createElement('span'); s.className = 'ch';
+      var inner = document.createElement('span');
+      inner.style.opacity = '.18'; inner.textContent = c;
+      s.appendChild(inner); frag.appendChild(s); chars.push(inner);
+    });
+    node.appendChild(frag);
+  })(scText);
+
+  function clamp(v,a,b){ return Math.min(b, Math.max(a, v)); }
+  var sticky = document.querySelectorAll('.stack-card');
+  var cardH = sticky[0] ? sticky[0].offsetHeight : 400;
+
+  var ticking = false;
+  function frame(){
+    ticking = false;
+    var vh = window.innerHeight;
+
+    header.classList.toggle('scrolled', window.scrollY > 24);
+
+    var mr = marquee.getBoundingClientRect();
+    var p = (vh - mr.top);
+    var w1 = row1.scrollWidth / 3;
+    var off = (p * 0.3) % w1;
+    row1.style.transform = 'translate3d(' + (-w1 + off) + 'px,0,0)';
+    row2.style.transform = 'translate3d(' + (-off) + 'px,0,0)';
+
+    var sr = scText.getBoundingClientRect();
+    var prog = clamp((vh * 0.8 - sr.top) / (sr.height + vh * 0.6), 0, 1);
+    var n = chars.length;
+    for(var i = 0; i < n; i++){
+      var k = clamp(prog * n * 1.15 - i, 0, 1);
+      chars[i].style.opacity = (0.18 + 0.82 * k).toFixed(3);
+    }
+
+    for(var j = 0; j < sticky.length - 1; j++){
+      var next = sticky[j + 1].getBoundingClientRect();
+      var top = parseFloat(getComputedStyle(sticky[j]).top) || 120;
+      var dist = next.top - top;
+      var q = clamp(1 - dist / (cardH * 0.7), 0, 1);
+      sticky[j].style.transform = 'scale(' + (1 - 0.06 * q).toFixed(4) + ')';
+      sticky[j].style.filter = 'brightness(' + (1 - 0.35 * q).toFixed(3) + ')';
+    }
+  }
+  function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(frame); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', function(){ cardH = sticky[0] ? sticky[0].offsetHeight : cardH; onScroll(); });
+  frame();
 })();
 </script>
 
