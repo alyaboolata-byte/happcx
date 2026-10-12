@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happ.cx — подключение через Happ</title>
-<meta name="description" content="Установите приложение Happ и получите ключ подключения через партнёрский сервис. Инструкции для iPhone, Android, Windows, macOS и Linux.">
+<title>Happ.cx — VPN-подключение через приложение Happ</title>
+<meta name="description" content="Что такое VPN и приложение Happ, как установить клиент и добавить ключ VPN-подключения. Инструкции для iPhone, Android, Windows, macOS и Linux.">
 <link rel="canonical" href="https://happ.cx/">
 <style>
 :root{
@@ -141,8 +141,40 @@ footer a{color:var(--text2)}
 footer a:hover{color:var(--text)}
 
 /* Reveal on scroll */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal{opacity:0;transform:translateY(28px) scale(.98);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
+.steps .step:nth-child(2),.devices-grid .device-card:nth-child(2){transition-delay:.12s}
+.steps .step:nth-child(3),.devices-grid .device-card:nth-child(3){transition-delay:.24s}
+.devices-grid .device-card:nth-child(4){transition-delay:.1s}
+.devices-grid .device-card:nth-child(5){transition-delay:.2s}
+.devices-grid .device-card:nth-child(6){transition-delay:.3s}
+
+/* Extra motion */
+.hero h1 em{background-size:200% auto;animation:gradient-shift 5s ease-in-out infinite}
+@keyframes gradient-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.eyebrow{background:linear-gradient(90deg,var(--accent2),var(--accent),var(--accent2));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradient-shift 4s ease-in-out infinite}
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::after{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .7s ease}
+.btn:hover::after{left:125%}
+.hero-grid>div:first-child>*{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-grid>div:first-child>*:nth-child(1){animation-delay:.05s}
+.hero-grid>div:first-child>*:nth-child(2){animation-delay:.15s}
+.hero-grid>div:first-child>*:nth-child(3){animation-delay:.25s}
+.hero-grid>div:first-child>*:nth-child(4){animation-delay:.35s}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.orb{position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none;z-index:-1}
+.orb.o1{width:260px;height:260px;background:rgba(124,108,255,.45);top:-30px;left:-20px;animation:float-a 9s ease-in-out infinite}
+.orb.o2{width:200px;height:200px;background:rgba(51,214,196,.35);bottom:10px;right:-10px;animation:float-b 11s ease-in-out infinite}
+@keyframes float-a{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
+@keyframes float-b{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-30px)}}
+.power-btn{animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{0%,100%{box-shadow:0 0 40px rgba(124,108,255,.5),inset 0 0 0 1px rgba(255,255,255,.12)}50%{box-shadow:0 0 70px rgba(124,108,255,.8),inset 0 0 0 1px rgba(255,255,255,.2)}}
+.device-card:hover h3 .icon{display:inline-block;animation:wiggle .5s ease}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg) scale(1.1)}75%{transform:rotate(10deg) scale(1.1)}}
+.step-num{transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.step:hover .step-num{transform:scale(1.12) rotate(-6deg)}
+.faq-a-inner{opacity:0;transform:translateY(-6px);transition:opacity .35s ease,transform .35s ease}
+.faq-item.open .faq-a-inner{opacity:1;transform:none}
 
 @media (max-width:860px){
   .hero-grid{grid-template-columns:1fr;text-align:center}
@@ -203,6 +235,7 @@ footer a:hover{color:var(--text)}
       </div>
     </div>
     <div class="phone-wrap" aria-hidden="true">
+      <span class="orb o1"></span><span class="orb o2"></span>
       <div class="phone">
         <div class="screen">
           <div class="notch"></div>
@@ -272,6 +305,35 @@ footer a:hover{color:var(--text)}
         <div class="step-num">3</div>
         <h3>Добавьте ключ в Happ</h3>
         <p>Скопируйте ключ, в приложении нажмите «+» и вставьте его. После этого можно подключаться.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vpn">
+  <div class="wrap">
+    <p class="eyebrow reveal">VPN</p>
+    <h2 class="section-title reveal">VPN и Happ: коротко о главном</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">?</div>
+        <h3>Что делает VPN</h3>
+        <p>VPN (виртуальная частная сеть) передаёт трафик устройства через удалённый сервер. Сайты видят адрес сервера, а не ваш домашний адрес.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">H</div>
+        <h3>Роль Happ</h3>
+        <p>Happ — клиент, который подключается к VPN-серверу по ключу. Сами серверы приложение не предоставляет, ключ выдаёт отдельный сервис.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">P</div>
+        <h3>Протоколы</h3>
+        <p>В ключе указан протокол, например VLESS. Он задаёт способ передачи данных. Набор протоколов зависит от сервиса, который выдал ключ.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">✓</div>
+        <h3>Что проверить перед покупкой</h3>
+        <p>Условия подписки, срок доступа, число устройств и политику конфиденциальности сервиса. Эти данные указывает партнёр, а не этот сайт.</p>
       </div>
     </div>
   </div>
@@ -379,6 +441,16 @@ footer a:hover{color:var(--text)}
         <div class="faq-a"><div class="faq-a-inner">По вопросам работы приложения Happ обращайтесь к документации на <a href="https://docs.happ.info/" target="_blank" rel="noopener">docs.happ.info</a>. По вопросам ключа и подписки — к сервису «Зумерский VPN», на который ведёт кнопка «Получить ключ».</div></div>
       </div>
 
+    <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Что такое VPN?</button>
+        <div class="faq-a"><div class="faq-a-inner">VPN — способ передавать трафик устройства через защищённое соединение с удалённым сервером. Так устроены многие сервисы для доступа в интернет через VPN-подключение. Подробнее о поддержке и условиях сообщает сервис, который выдал ключ.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Happ — это VPN-сервис?</button>
+        <div class="faq-a"><div class="faq-a-inner">Happ — это клиент, а не сервис. Он работает с VPN-ключом, который вы получаете отдельно. Сам Happ серверов не предоставляет.</div></div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -394,8 +466,6 @@ footer a:hover{color:var(--text)}
 
 <footer>
   <div class="wrap">
-    <p>happ.cx — партнёрский сайт. Ссылки на получение ключа ведут на внешний сервис «Зумерский&nbsp;VPN».</p>
-    <p>Приложение Happ разрабатывается командой <a href="https://happ.info/ru/" target="_blank" rel="noopener">happ.info</a>. Сайт happ.cx не связан с разработчиками приложения.</p>
     <p style="margin-top:8px"><a href="privacy.html">Политика конфиденциальности</a></p>
   </div>
 </footer>
