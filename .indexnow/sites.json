@@ -1,0 +1,15 @@
+{
+  "project": "happcx",
+  "sites": [
+    {
+      "host": "happ.cx",
+      "projectId": "prj_vJ25M56OZYtfF1r4mWSIYjwqUhN1",
+      "key": "166ec009dc087c91e589e69709d774bc",
+      "keyLocation": "https://happ.cx/166ec009dc087c91e589e69709d774bc.txt",
+      "markerUrl": "https://happ.cx/indexnow-deployment.json",
+      "fallbackUrls": [
+        "https://happ.cx/"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "framework": null,
+  "buildCommand": "python3 .indexnow/prepare.py .",
+  "outputDirectory": ".",
+  "installCommand": ""
+}

@@ -1,0 +1,52 @@
+name: IndexNow after Vercel production
+on:
+  deployment_status:
+  status:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: indexnow-production
+  cancel-in-progress: false
+jobs:
+  notify:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'status' && github.event.state == 'success' && startsWith(github.event.context, 'Vercel')) ||
+      (github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify the live production revision
+        id: gate
+        run: python3 .indexnow/gate.py
+      - uses: actions/cache/restore@v4
+        if: steps.gate.outputs.ready == 'true'
+        with:
+          path: .indexnow/state.json
+          key: indexnow-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: indexnow-v1-
+      - name: Submit new and changed indexable URLs to Bing
+        id: submit
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          DEPLOYED_SHA: ${{ steps.gate.outputs.sha }}
+        run: python3 .indexnow/notifier.py --submit --require-sha "$DEPLOYED_SHA"
+      - uses: actions/cache/save@v4
+        if: steps.submit.outcome == 'success'
+        with:
+          path: .indexnow/state.json
+          key: indexnow-v1-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.gate.outputs.ready == 'true'
+        with:
+          name: indexnow-report-${{ github.run_id }}
+          path: .indexnow/report.json
+          retention-days: 30
